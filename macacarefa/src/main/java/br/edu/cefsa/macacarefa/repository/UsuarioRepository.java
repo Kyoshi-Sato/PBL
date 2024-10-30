@@ -18,5 +18,5 @@ import org.springframework.stereotype.Repository;
 public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
 
     // Método para buscar um padrão pelo nome
-    Optional<Usuario> findByNome(String nome);
+    Usuario findByNome(String nome);
 }

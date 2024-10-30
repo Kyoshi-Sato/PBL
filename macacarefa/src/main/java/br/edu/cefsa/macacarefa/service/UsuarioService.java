@@ -14,17 +14,19 @@ public class UsuarioService implements UserDetailsService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+    
 
+    
     @Override
     public Usuario loadUserByUsername(String nome) throws UsernameNotFoundException {
-        return usuarioRepository.findByNome(nome)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+        return usuarioRepository.findByNome(nome);
     }
 
-    public void save(Usuario usuario) {
+    public Usuario save(Usuario usuario) {
         // Criptografa a senha antes de salvar
         usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getPassword()));
-        usuarioRepository.save(usuario);
+        return usuarioRepository.save(usuario);
     }
 
     public List<Usuario> findAll() {
@@ -33,6 +35,9 @@ public class UsuarioService implements UserDetailsService {
 
     public boolean existsByNomeOrEmail(String username, String email) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    public Usuario findByUsername(String username){
+        return usuarioRepository.findByNome(username);
     }
 }
 

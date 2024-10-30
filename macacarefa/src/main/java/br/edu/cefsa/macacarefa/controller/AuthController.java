@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -19,7 +20,12 @@ public class AuthController {
     public String login() {
         return "login"; // Página de login
     }
-
+    
+    @GetMapping("/h2-console")
+    public String h2() {
+        return "/h2-console"; 
+    }
+    
     @GetMapping("/index")
     public String index() {
         return "index"; // Página de login
@@ -32,17 +38,18 @@ public class AuthController {
     }
 
     @GetMapping("/cadastro")
-    public String cadastro() {
+    public String cadastro(Model model) {
+        model.addAttribute("usuario", new Usuario());
         return "cadastro"; // Página de registro
     }
 
     @PostMapping("/cadastro")
-    public String cadastroUser(Usuario usuario, Model model) {
+    public String cadastroUser(@ModelAttribute("usuario") Usuario usuario) {
         // Adiciona validação para evitar que dois usuários tenham o mesmo nome ou email
-        if (usuarioService.existsByNomeOrEmail(usuario.getUsername(), usuario.getEmail())) {
-            model.addAttribute("erro", "Nome ou email já cadastrado");
-            return "cadastro"; // Volta para a página de cadastro com erro
-        }
+       // if (usuarioService.existsByNomeOrEmail(usuario.getUsername(), usuario.getEmail())) {
+         //   model.addAttribute("erro", "Nome ou email já cadastrado");
+           // return "cadastro"; // Volta para a página de cadastro com erro
+        //}
 
         usuarioService.save(usuario); // Salva o usuário com senha criptografada
         return "redirect:/login"; // Redireciona para login após registro
