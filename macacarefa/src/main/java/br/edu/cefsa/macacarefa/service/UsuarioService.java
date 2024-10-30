@@ -19,7 +19,6 @@ public class UsuarioService implements UserDetailsService {
     
     @Override
     public Usuario loadUserByUsername(String nome) throws UsernameNotFoundException {
-                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
         return usuarioRepository.findByNome(nome);
     }
 
